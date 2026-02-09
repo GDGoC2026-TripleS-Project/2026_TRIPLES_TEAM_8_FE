@@ -1,0 +1,130 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+@import "tailwindcss";
+
+:root {
+  /* Primary */
+  --color-primary-dark: #443a35;
+  --color-primary-warm: #aa9a92;
+  --color-primary-sand: #ece7e5;
+  --color-primary-cream: #fffdf5;
+
+  /* System */
+  --color-system-error: #ff5656;
+  --color-system-blue: #426bf2;
+
+  /* Grayscale */
+  --color-white: #fdfdfd;
+  --color-bg-gray: #f4f4f4;
+  --color-text-gray1: #505050;
+  --color-text-gray2: #8c8c8c;
+
+  /* Stroke */
+  --color-stroke: #e5e5e5;
+
+  /* Card */
+  --color-card-pink: #fcdcea;
+  --color-card-yellow: #fffbd5;
+  --color-card-blue: #e3f0ff;
+  --color-card-purple: #f2e9ff;
+
+  /* Radius */
+  --radius-btn: 12px;
+  --radius-card: 20px;
+
+  /* 앱 배경/전경 토큰 */
+  --background: var(--color-white);
+  --foreground: var(--color-text-gray1);
+
+  /* 키워드 기반 색상 */
+  --kw-love: #ffc5c4;
+  --kw-joy: #ffeaa5;
+  --kw-sad: #b4c0ff;
+  --kw-tension: #c6a3e8;
+  --kw-anger: #ee5f5f;
+  --kw-comfort: #def9d1;
+
+  --kw-light: #f2ede7;
+  --kw-immersive: #e0d7f5;
+  --kw-aftertaste: #e1ddd9;
+  --kw-insight: #afe0ff;
+  --kw-shift: #b8eeea;
+
+  --kw-bright: #fff4d6;
+  --kw-warm: #e6c7a2;
+  --kw-calm: #e3ebea;
+  --kw-heavy: #ceccec;
+  --kw-sharp: #8399c9;
+  --kw-hope: #ffbb8d;
+}
+
+html {
+  height: 100%;
+}
+
+@layer base {
+  body {
+    font-family: "Pretendard", sans-serif;
+  }
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--foreground);
+  background: var(--background);
+  overscroll-behavior-y: none;
+
+  /* 데스크탑 바깥 여백 배경 + 가운데 정렬 */
+  background: var(--color-bg-gray);
+  display: flex;
+  justify-content: center;
+}
+
+/* 모바일 폭 고정 */
+#app-shell {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  background: var(--background);
+  overflow-x: hidden;
+}
+
+/* Safe area */
+.safe-area-inset-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 스크롤바 숨기기 */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* 애니메이션 유틸 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in;
+}
+.animate-slideUp {
+  animation: slideUp 0.8s ease-out;
+}

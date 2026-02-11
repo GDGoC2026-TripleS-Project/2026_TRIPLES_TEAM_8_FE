@@ -9,10 +9,10 @@ export default function TopNavBar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-stroke bg-background">
-        <div className="h-[40px]" />
-        <div className="flex h-[72px] items-center justify-between px-5">
-          <div className="relative h-[30px] w-[90px]">
+      <header className="sticky top-0 bg-background">
+        <div className="h-[10px]" />
+        <div className="flex h-[60px] items-center justify-between px-5">
+          <div className="relative h-[30px] w-[80px]">
             <Image
               src="/common/logo.svg"
               alt="Gread"
@@ -31,6 +31,7 @@ export default function TopNavBar() {
             <Image src="/common/icon-bar.svg" alt="" width={24} height={24} />
           </button>
         </div>
+        <div className="h-[1.5px] bg-stroke" />
       </header>
 
       <MenuDrawer open={open} onClose={() => setOpen(false)} />

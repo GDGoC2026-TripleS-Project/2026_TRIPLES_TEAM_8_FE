@@ -6,9 +6,9 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="min-h-screen bg-background">
       <TopNavBar />
-      {children}
-    </>
+      <main>{children}</main>
+    </div>
   );
 }

@@ -37,10 +37,10 @@ export default function MenuDrawer({ open, onClose }: Props) {
 
       {/* 패널 */}
       <aside className="absolute inset-0 bg-background">
-        <div className="h-[40px]" />
+        <div className="h-[10px]" />
         {/* 헤더 */}
-        <div className="flex h-[72px] items-center justify-between border-b border-stroke px-5 border-b-[1.5px]">
-          <div className="relative h-[30px] w-[90px]">
+        <div className="flex h-[60px] items-center justify-between border-b border-stroke px-5 border-b-[1.5px]">
+          <div className="relative h-[30px] w-[80px]">
             <Image
               src="/common/logo.svg"
               alt="Gread"
@@ -71,7 +71,8 @@ export default function MenuDrawer({ open, onClose }: Props) {
                     href={m.href}
                     onClick={onClose}
                     className={[
-                      "flex items-center gap-4 px-4 py-4 rounded-[12px] transition-colors",
+                      "flex items-center gap-4 px-4 py-4",
+                      "rounded-[12px] transition-colors",
                       "hover:bg-gray-bg",
                       active ? "bg-gray-bg" : "",
                     ].join(" ")}

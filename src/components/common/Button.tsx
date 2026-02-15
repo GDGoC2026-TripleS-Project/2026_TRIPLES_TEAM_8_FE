@@ -26,16 +26,14 @@ export default function Button({
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        "w-[350px] h-[50px] rounded-xl flex items-center justify-center text-h3_m transition-colors",
+        "w-[350px] h-[50px] rounded-xl flex items-center justify-center gap-2 text-h3_m transition-colors",
         disabled
           ? "bg-gray-bg text-gray-text2 cursor-not-allowed"
           : "bg-primary-dark text-white",
         className,
       )}
     >
-      {leftIcon && (
-        <span className="absolute left-4 flex items-center">{leftIcon}</span>
-      )}
+      {leftIcon && <span className="flex items-center">{leftIcon}</span>}
 
       {children}
     </button>

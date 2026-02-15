@@ -17,7 +17,7 @@ export default function ChoiceCard({
         w-full h-[120px] rounded-md border border-primary-dark
         flex items-center justify-center text-center px-10
         cursor-pointer transition-colors duration-200
-        ${selected ? "bg-primary-warm" : "bg-primary-cream"}
+        ${selected ? "bg-primary-sand" : "bg-primary-cream"}
       `}
     >
       <span className="text-h3_m text-primary-dark">{label}</span>

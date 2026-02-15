@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useOnboardingStore } from "@/store/onboarding.store";
 import Image from "next/image";
 import Button from "@/components/common/Button";
 
 export default function OnboardingNicknamePage() {
   const router = useRouter();
 
-  const [nickname, setNickname] = useState("");
+  const { nickname, setNickname, readerType, testResultCode, email, reset } =
+    useOnboardingStore();
+
   const [isFocused, setIsFocused] = useState(false);
 
   // 닉네임 유효성 검사 (2-10자)
@@ -16,11 +19,32 @@ export default function OnboardingNicknamePage() {
 
   const showError = nickname.length > 0 && !isValid;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!isValid) return;
 
-    // TODO: POST /api/login/onboarding (readerType, testResultCode, email)
-    router.push("/home");
+    try {
+      const res = await fetch("/api/login/onboarding", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          nickname,
+          readerType,
+          testResultCode,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("API Error");
+      }
+
+      reset();
+      router.push("/home");
+    } catch (error) {
+      console.error("온보딩 실패:", error);
+    }
   };
 
   return (
@@ -82,7 +106,7 @@ export default function OnboardingNicknamePage() {
       {/* 하단 버튼 */}
       <div className="mt-auto">
         <Button onClick={handleNext} disabled={!isValid} className="w-full">
-          다음
+          그리드 시작
         </Button>
       </div>
     </div>

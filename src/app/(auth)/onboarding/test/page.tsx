@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useOnboardingStore } from "@/store/onboarding.store";
 import StepIndicator from "@/components/common/StepIndicator";
 import ChoiceCard from "@/components/onboarding/ChoiceCard";
 
@@ -32,6 +33,8 @@ const READER_TYPE_MAP: Record<string, string> = {
 export default function OnboardingTestPage() {
   const router = useRouter();
 
+  const { setAnswers: setStoreAnswers, setTestResult } = useOnboardingStore();
+
   // 질문 데이터
   const questions: Question[] = [
     {
@@ -61,8 +64,7 @@ export default function OnboardingTestPage() {
 
   const [currentStep, setCurrentStep] = useState(0);
 
-  // 각 문항의 선택값 -> testResultCode
-  const [answers, setAnswers] = useState<(BitValue | null)[]>(
+  const [answers, setLocalAnswers] = useState<(BitValue | null)[]>(
     Array(TOTAL).fill(null),
   );
 
@@ -72,7 +74,7 @@ export default function OnboardingTestPage() {
   const handleSelect = (bitValue: BitValue) => {
     const updated = [...answers];
     updated[currentStep] = bitValue;
-    setAnswers(updated);
+    setLocalAnswers(updated);
   };
 
   // 다음
@@ -90,14 +92,15 @@ export default function OnboardingTestPage() {
   };
 
   // 제출 (testResultCode, readerType 계산)
-  // 추후 POST /api/login/onboarding 연결 예정
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (answers.includes(null)) return;
+
     const testResultCode = answers.join("");
     const readerType = READER_TYPE_MAP[testResultCode];
 
-    console.log("testResultCode:", testResultCode);
-    console.log("readerType:", readerType);
+    setStoreAnswers(answers as BitValue[]);
+    setTestResult(testResultCode, readerType);
+
     router.push("/onboarding/result");
   };
 
@@ -131,14 +134,12 @@ export default function OnboardingTestPage() {
         <button
           onClick={goPrev}
           disabled={currentStep === 0}
-          className={`
-            w-[120px] h-[50px] rounded-xl text-h3_m
-            ${
-              currentStep === 0
-                ? "bg-gray-200 text-primary-dark"
-                : "bg-primary-sand text-primary-dark"
-            }
-          `}
+          className="
+  w-[120px] h-[50px] rounded-xl
+  bg-primary-sand text-primary-dark
+  disabled:bg-gray-bg disabled:text-gray-text2
+  disabled:cursor-not-allowed
+"
         >
           이전
         </button>
@@ -148,14 +149,12 @@ export default function OnboardingTestPage() {
           <button
             onClick={handleSubmit}
             disabled={currentAnswer === null}
-            className={`
-              w-[120px] h-[50px] rounded-xl text-h3_m
-              ${
-                currentAnswer === null
-                  ? "bg-primary-warm text-white"
-                  : "bg-primary-dark text-white"
-              }
-            `}
+            className="
+  w-[120px] h-[50px] rounded-xl
+  bg-primary-dark text-white
+  disabled:bg-gray-bg disabled:text-gray-text2
+  disabled:cursor-not-allowed
+"
           >
             제출
           </button>
@@ -163,14 +162,12 @@ export default function OnboardingTestPage() {
           <button
             onClick={goNext}
             disabled={currentAnswer === null}
-            className={`
-              w-[120px] h-[50px] rounded-xl text-h3_m
-              ${
-                currentAnswer === null
-                  ? "bg-primary-warm text-white"
-                  : "bg-primary-dark text-white"
-              }
-            `}
+            className="
+  w-[120px] h-[50px] rounded-xl
+  bg-primary-dark text-white
+  disabled:bg-gray-bg disabled:text-gray-text2
+  disabled:cursor-not-allowed
+"
           >
             다음
           </button>

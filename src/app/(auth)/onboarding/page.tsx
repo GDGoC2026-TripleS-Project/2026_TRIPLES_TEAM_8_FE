@@ -29,7 +29,7 @@ export default function OnboardingPage() {
   return (
     <div className="h-screen bg-white flex flex-col overflow-hidden">
       {/* 상단 인디케이터 */}
-      <div className="pt-14 pb-14 flex justify-center">
+      <div className="pt-20 pb-14 flex justify-center">
         <StepIndicator current={currentIndex} total={TOTAL} />
       </div>
 
@@ -67,7 +67,10 @@ export default function OnboardingPage() {
       {/* 하단 버튼 */}
       {currentIndex === TOTAL - 1 && (
         <div className="pb-10 px-6">
-          <Button onClick={() => router.push("/test")} className="w-full">
+          <Button
+            onClick={() => router.push("/onboarding/test")}
+            className="w-full"
+          >
             테스트 시작
           </Button>
         </div>

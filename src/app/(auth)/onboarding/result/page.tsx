@@ -97,7 +97,10 @@ export default function OnboardingResultPage() {
 
       {/* 하단 버튼 */}
       <div className="mt-auto w-full">
-        <Button onClick={() => router.push("/nickname")} className="w-full">
+        <Button
+          onClick={() => router.push("/onboarding/nickname")}
+          className="w-full"
+        >
           닉네임 설정
         </Button>
       </div>

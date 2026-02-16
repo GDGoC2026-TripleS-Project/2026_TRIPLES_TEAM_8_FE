@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { mockFeedBooks } from "@/lib/mock/feed.mock";
 import { FeedBook, CategoryType } from "@/types/feed";
 
+import TopNavBar from "@/components/layout/TopNavBar";
 import FeedSearchBar from "@/components/feed/FeedSearchBar";
 import FeedCategoryTabs from "@/components/feed/FeedCategoryTabs";
 import FeedList from "@/components/feed/FeedList";
@@ -40,30 +41,33 @@ export default function FeedPage() {
   const totalPages = Math.ceil(filteredBooks.length / PAGE_SIZE);
 
   return (
-    <div className="px-6 pt-4 pb-10">
-      {/* 검색바 */}
-      <FeedSearchBar
-        value={search}
-        onChange={(v) => {
-          setSearch(v);
-          setPage(0);
-        }}
-      />
+    <div>
+      <TopNavBar />
+      <div className="px-6 pt-4 pb-10">
+        {/* 검색바 */}
+        <FeedSearchBar
+          value={search}
+          onChange={(v) => {
+            setSearch(v);
+            setPage(0);
+          }}
+        />
 
-      {/* 카테고리 탭 */}
-      <FeedCategoryTabs
-        selected={selectedCategory}
-        onSelect={(cat) => {
-          setSelectedCategory(cat);
-          setPage(0);
-        }}
-      />
+        {/* 카테고리 탭 */}
+        <FeedCategoryTabs
+          selected={selectedCategory}
+          onSelect={(cat) => {
+            setSelectedCategory(cat);
+            setPage(0);
+          }}
+        />
 
-      {/* 리스트 */}
-      <FeedList books={paginatedBooks} />
+        {/* 리스트 */}
+        <FeedList books={paginatedBooks} />
 
-      {/* 페이지네이션 */}
-      <FeedPagination current={page} total={totalPages} onChange={setPage} />
+        {/* 페이지네이션 */}
+        <FeedPagination current={page} total={totalPages} onChange={setPage} />
+      </div>
     </div>
   );
 }

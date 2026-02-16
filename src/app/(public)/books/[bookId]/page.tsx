@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
 
 import FeedCard from "@/components/feed/FeedCard";
 import ReviewCard from "@/components/book/ReviewCard";
+import BackHeader from "@/components/common/BackHeader";
 import Button from "@/components/common/Button";
 import ScrollTopButton from "@/components/common/ScrollTopButton";
 
@@ -44,21 +44,9 @@ export default function BookDetailPage() {
   return (
     <div className="px-6 pt-[60px] pb-[100px]">
       {/* 상단 고정 헤더 */}
-      <div className="fixed top-0 left-0 w-full bg-white z-50 border-b border-stroke">
-        <div className="px-6 h-[60px] flex items-center gap-4">
-          <Image
-            src="/common/icon-back.svg"
-            alt="back"
-            width={30}
-            height={30}
-            onClick={() => router.back()}
-            className="cursor-pointer"
-          />
-          <h1 className="text-h2_sb truncate">{book.title}</h1>
-        </div>
-      </div>
+      <BackHeader title={book.title} />
 
-      {/* 🔥 FeedCard 재사용 */}
+      {/* FeedCard */}
       <FeedCard
         book={{
           bookId: book.id,

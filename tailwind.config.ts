@@ -92,7 +92,10 @@ const config: Config = {
           "10px",
           { lineHeight: "normal", letterSpacing: "0", fontWeight: "600" },
         ],
-
+        h0_m: [
+          "30px",
+          { lineHeight: "normal", letterSpacing: "0", fontWeight: "500" },
+        ],
         h1_m: [
           "20px",
           { lineHeight: "normal", letterSpacing: "0", fontWeight: "500" },

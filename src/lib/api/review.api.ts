@@ -1,4 +1,5 @@
 import { CreateReviewRequest, CreateReviewResponse } from "@/types/review";
+import { HomeReview } from "@/types/home";
 
 export async function createReview(
   bookId: number,
@@ -18,4 +19,15 @@ export async function createReview(
   }
 
   return res.json();
+}
+
+export async function fetchLatestReviews(): Promise<HomeReview[]> {
+  const res = await fetch("/api/books/1/reviews/ranking/latest");
+
+  if (!res.ok) {
+    throw new Error("Latest Review API Error");
+  }
+
+  const json = await res.json();
+  return json.data;
 }

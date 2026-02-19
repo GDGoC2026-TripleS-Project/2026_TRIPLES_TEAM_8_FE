@@ -7,14 +7,19 @@ import ResultDescription from "@/components/onboarding/ResultDescription";
 import { useOnboardingStore } from "@/store/onboarding.store";
 
 const CATEGORY_MAP: Record<number, string> = {
-  1: "시",
-  2: "소설",
-  3: "창작",
+  1: "창작",
+  2: "창작",
+  5: "창작",
+  3: "에세이",
+  7: "에세이",
+  4: "유머",
+  6: "저널리즘",
+  8: "저널리즘",
 };
 
 export default function OnboardingResultPage() {
   const router = useRouter();
-  const { resultData, reset } = useOnboardingStore();
+  const { resultData } = useOnboardingStore();
 
   if (!resultData) return null;
 
@@ -22,6 +27,8 @@ export default function OnboardingResultPage() {
     resultData;
 
   const imageFileName = readerType.toLowerCase().replace("_", "-");
+
+  const categoryName = CATEGORY_MAP[recommendedCategoryCode] ?? "기타";
 
   return (
     <div className="h-screen flex flex-col bg-white px-6 pt-20 pb-10 items-center">
@@ -61,7 +68,7 @@ export default function OnboardingResultPage() {
         <div className="w-[200px] h-[40px] bg-primary-sand rounded-xl px-4 flex items-center justify-center gap-2">
           <span>📚</span>
           <span className="text-primary-dark text-h3_m">
-            추천 카테고리 : {CATEGORY_MAP[recommendedCategoryCode]}
+            추천 카테고리 : {categoryName}
           </span>
         </div>
       </div>

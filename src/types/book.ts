@@ -11,6 +11,7 @@ export interface BookDetail {
 export type ReviewCardColor = "pink" | "yellow" | "blue" | "purple";
 
 export interface BookReview {
+  bookId: number;
   reviewId: number;
   authorId: number;
   authorNickname: string;

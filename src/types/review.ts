@@ -1,4 +1,4 @@
-export type ReviewColor = "GRAY" | "PINK" | "YELLOW" | "BLUE" | "PURPLE";
+// export type ReviewColor = "GRAY" | "PINK" | "YELLOW" | "BLUE" | "PURPLE";
 
 export interface CreateReviewRequest {
   reviewColor: ReviewColor;
@@ -19,4 +19,16 @@ export interface CreateReviewResponse {
     nickname: string;
     profileId: number;
   };
+}
+
+export type ReviewColor = "GRAY" | "PINK" | "YELLOW" | "BLUE" | "PURPLE";
+
+export interface BaseReview {
+  reviewId: number;
+  bookId: number;
+  content: string;
+  authorNickname: string;
+  reviewColor?: ReviewColor;
+  profileImage?: string;
+  createdAt?: string;
 }

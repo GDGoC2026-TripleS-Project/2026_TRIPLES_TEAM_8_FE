@@ -68,7 +68,7 @@ export default function BookDetailPage() {
       </div>
 
       {/* 리뷰 교차 배치 */}
-      <div>
+      {/* <div>
         {reviews.map((review, index) => (
           <ReviewCard
             key={review.reviewId}
@@ -76,7 +76,7 @@ export default function BookDetailPage() {
             align={index % 2 === 0 ? "left" : "right"}
           />
         ))}
-      </div>
+      </div> */}
 
       {/* 스크롤 버튼 */}
       <ScrollTopButton />

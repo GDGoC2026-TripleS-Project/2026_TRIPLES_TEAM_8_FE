@@ -1,4 +1,4 @@
-import TopNavBar from "@/components/layout/TopNavBar";
+// import TopNavBar from "@/components/layout/TopNavBar";
 
 export default function ProtectedLayout({
   children,
@@ -7,7 +7,7 @@ export default function ProtectedLayout({
 }) {
   return (
     <>
-      <TopNavBar />
+      {/* <TopNavBar /> */}
       <main>{children}</main>
     </>
   );

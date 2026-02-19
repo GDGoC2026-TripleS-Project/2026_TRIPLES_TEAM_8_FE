@@ -43,7 +43,7 @@ export default function OnboardingResultPage() {
           height={30}
         />
 
-        <h2 className="text-primary-dark text-h1_m">{readerTitle} 독자</h2>
+        <h2 className="text-primary-dark text-h1_m">{readerTitle}</h2>
 
         <Image
           src="/onboarding/quotes-back.svg"

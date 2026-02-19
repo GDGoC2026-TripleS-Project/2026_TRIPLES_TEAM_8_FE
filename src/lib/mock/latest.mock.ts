@@ -2,6 +2,7 @@ import { HomeReview } from "@/types/home";
 
 export const mockLatestReviews: HomeReview[] = [
   {
+    bookId: 11,
     reviewId: 11,
     category: "1",
     content: "최근에 읽은 책 중 가장 좋았어요.",
@@ -12,6 +13,7 @@ export const mockLatestReviews: HomeReview[] = [
     profileImage: "/mock/profile1.png",
   },
   {
+    bookId: 12,
     reviewId: 12,
     category: "2",
     content: "잔잔하지만 강한 울림이 있어요.",

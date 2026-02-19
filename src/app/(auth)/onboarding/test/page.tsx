@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { useOnboardingStore } from "@/store/onboarding.store";
 import StepIndicator from "@/components/common/StepIndicator";
 import ChoiceCard from "@/components/onboarding/ChoiceCard";
+import { postOnboarding } from "@/lib/api/auth.api";
+import { READER_TYPE_MAP, PREFERENCE_TAG_MAP } from "@/lib/utils/readerType";
 
-// bit 값 타입
 type BitValue = 0 | 1;
 
-// 질문 타입
 interface Question {
   question: string;
   options: {
@@ -18,24 +18,12 @@ interface Question {
   }[];
 }
 
-// bit 조합
-const READER_TYPE_MAP: Record<string, string> = {
-  "000": "TYPE_A",
-  "001": "TYPE_B",
-  "010": "TYPE_C",
-  "011": "TYPE_D",
-  "100": "TYPE_E",
-  "101": "TYPE_F",
-  "110": "TYPE_G",
-  "111": "TYPE_H",
-};
-
 export default function OnboardingTestPage() {
   const router = useRouter();
 
-  const { setAnswers: setStoreAnswers, setTestResult } = useOnboardingStore();
+  const { nickname, setAnswers, setTestResult, setResultData } =
+    useOnboardingStore();
 
-  // 질문 데이터
   const questions: Question[] = [
     {
       question: "Q1. 문학에서 더 끌리는 쪽은?",
@@ -61,113 +49,86 @@ export default function OnboardingTestPage() {
   ];
 
   const TOTAL = questions.length;
-
   const [currentStep, setCurrentStep] = useState(0);
-
   const [answers, setLocalAnswers] = useState<(BitValue | null)[]>(
     Array(TOTAL).fill(null),
   );
 
-  const currentAnswer = answers[currentStep];
-
-  // 선택 처리
   const handleSelect = (bitValue: BitValue) => {
     const updated = [...answers];
     updated[currentStep] = bitValue;
     setLocalAnswers(updated);
   };
 
-  // 다음
-  const goNext = () => {
-    if (currentStep < TOTAL - 1) {
-      setCurrentStep((prev) => prev + 1);
-    }
-  };
-
-  // 이전
-  const goPrev = () => {
-    if (currentStep > 0) {
-      setCurrentStep((prev) => prev - 1);
-    }
-  };
-
-  // 제출 (testResultCode, readerType 계산)
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (answers.includes(null)) return;
 
     const testResultCode = answers.join("");
     const readerType = READER_TYPE_MAP[testResultCode];
+    const preferenceTags = PREFERENCE_TAG_MAP[readerType];
 
-    setStoreAnswers(answers as BitValue[]);
-    setTestResult(testResultCode, readerType);
+    try {
+      const res = await postOnboarding({
+        nickname,
+        readerType,
+        preferenceTags,
+      });
 
-    router.push("/onboarding/result");
+      if (!res.success) throw new Error("온보딩 실패");
+
+      setAnswers(answers as BitValue[]);
+      setTestResult(testResultCode, readerType);
+      setResultData(res.data);
+
+      router.push("/onboarding/result");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className="h-screen flex flex-col bg-white px-6 pt-20 pb-10">
-      {/* 상단 인디케이터 */}
       <div className="flex justify-center mb-14">
         <StepIndicator current={currentStep} total={TOTAL} />
       </div>
 
-      {/* 질문 */}
       <h2 className="text-primary-dark text-h2_sb text-center mb-20">
         {questions[currentStep].question}
       </h2>
 
-      {/* 선택지 */}
       <div className="flex flex-col gap-8 flex-1">
         {questions[currentStep].options.map((option, index) => (
           <ChoiceCard
             key={index}
             label={option.label}
-            selected={currentAnswer === option.bitValue}
+            selected={answers[currentStep] === option.bitValue}
             onSelect={() => handleSelect(option.bitValue)}
           />
         ))}
       </div>
 
-      {/* 하단 버튼 영역 */}
       <div className="flex justify-between mt-8">
-        {/* 이전 버튼 */}
         <button
-          onClick={goPrev}
+          onClick={() => setCurrentStep((p) => p - 1)}
           disabled={currentStep === 0}
-          className="
-  w-[120px] h-[50px] rounded-xl
-  bg-primary-sand text-primary-dark
-  disabled:bg-gray-bg disabled:text-gray-text2
-  disabled:cursor-not-allowed
-"
+          className="w-[120px] h-[50px] rounded-xl bg-primary-sand text-primary-dark"
         >
           이전
         </button>
 
-        {/* 마지막 단계면 제출 */}
         {currentStep === TOTAL - 1 ? (
           <button
             onClick={handleSubmit}
-            disabled={currentAnswer === null}
-            className="
-  w-[120px] h-[50px] rounded-xl
-  bg-primary-dark text-white
-  disabled:bg-gray-bg disabled:text-gray-text2
-  disabled:cursor-not-allowed
-"
+            disabled={answers[currentStep] === null}
+            className="w-[120px] h-[50px] rounded-xl bg-primary-dark text-white"
           >
             제출
           </button>
         ) : (
           <button
-            onClick={goNext}
-            disabled={currentAnswer === null}
-            className="
-  w-[120px] h-[50px] rounded-xl
-  bg-primary-dark text-white
-  disabled:bg-gray-bg disabled:text-gray-text2
-  disabled:cursor-not-allowed
-"
+            onClick={() => setCurrentStep((p) => p + 1)}
+            disabled={answers[currentStep] === null}
+            className="w-[120px] h-[50px] rounded-xl bg-primary-dark text-white"
           >
             다음
           </button>

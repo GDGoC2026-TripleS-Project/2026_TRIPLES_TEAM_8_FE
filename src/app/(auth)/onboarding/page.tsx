@@ -1,18 +1,60 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import StepIndicator from "@/components/common/StepIndicator";
 import OnboardingSlide from "@/components/onboarding/OnboardingSlide";
 import Button from "@/components/common/Button";
+import { apiFetch } from "@/lib/api/fetcher";
+import { useAuthStore } from "@/store/auth.store";
+import { useOnboardingStore } from "@/store/onboarding.store";
 
 export default function OnboardingPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const { setToken } = useAuthStore();
+  const { setEmail } = useOnboardingStore();
+
   const TOTAL = 3;
 
+  // 로그인 callback 처리
+  useEffect(() => {
+    const code = searchParams.get("code");
+    if (!code) return;
+
+    const fetchToken = async () => {
+      try {
+        const res = await apiFetch<{
+          success: boolean;
+          data: {
+            accessToken: string;
+            refreshToken: string;
+            email: string;
+          };
+        }>("/api/login/callback", {
+          method: "POST",
+          body: JSON.stringify({ code }),
+        });
+
+        if (!res.success) return;
+
+        const { accessToken, email } = res.data;
+
+        localStorage.setItem("accessToken", accessToken);
+        setToken(accessToken);
+        setEmail(email);
+      } catch (error) {
+        console.error("로그인 콜백 실패", error);
+      }
+    };
+
+    fetchToken();
+  }, [searchParams, setToken, setEmail]);
+
+  // 슬라이드 로직
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -68,10 +110,10 @@ export default function OnboardingPage() {
       {currentIndex === TOTAL - 1 && (
         <div className="pb-10 px-6">
           <Button
-            onClick={() => router.push("/onboarding/test")}
+            onClick={() => router.push("/onboarding/nickname")}
             className="w-full"
           >
-            테스트 시작
+            닉네임 설정
           </Button>
         </div>
       )}

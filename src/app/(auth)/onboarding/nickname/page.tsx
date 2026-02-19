@@ -9,42 +9,15 @@ import Button from "@/components/common/Button";
 export default function OnboardingNicknamePage() {
   const router = useRouter();
 
-  const { nickname, setNickname, readerType, testResultCode, email, reset } =
-    useOnboardingStore();
-
+  const { nickname, setNickname } = useOnboardingStore();
   const [isFocused, setIsFocused] = useState(false);
 
-  // 닉네임 유효성 검사 (2-10자)
   const isValid = nickname.length >= 2 && nickname.length <= 10;
-
   const showError = nickname.length > 0 && !isValid;
 
-  const handleNext = async () => {
+  const handleNext = () => {
     if (!isValid) return;
-
-    try {
-      const res = await fetch("/api/login/onboarding", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          nickname,
-          readerType,
-          testResultCode,
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error("API Error");
-      }
-
-      reset();
-      router.push("/home");
-    } catch (error) {
-      console.error("온보딩 실패:", error);
-    }
+    router.push("/onboarding/test");
   };
 
   return (
@@ -106,7 +79,7 @@ export default function OnboardingNicknamePage() {
       {/* 하단 버튼 */}
       <div className="mt-auto">
         <Button onClick={handleNext} disabled={!isValid} className="w-full">
-          그리드 시작
+          테스트 시작
         </Button>
       </div>
     </div>

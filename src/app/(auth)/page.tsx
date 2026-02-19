@@ -1,22 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import Button from "@/components/common/Button";
-import { mockGoogleLoginResponse } from "@/lib/mock/auth.mock";
 
 export default function AuthEntryPage() {
-  const router = useRouter();
-
   const handleGuestStart = () => {
-    router.push("/home");
+    window.location.href = "/home";
   };
 
-  const handleGoogleLogin = async () => {
-    // 현재는 mock 처리
-    console.log(mockGoogleLoginResponse);
-
-    router.push("/onboarding");
+  const handleGoogleLogin = () => {
+    window.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/login`;
   };
 
   return (

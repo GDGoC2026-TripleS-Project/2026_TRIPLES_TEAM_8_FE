@@ -86,9 +86,7 @@ export default function HomePage() {
                 />
 
                 <h2 className="text-primary-dark text-h1_m">
-                  {readerType
-                    ? `${readerType} 독자`
-                    : "당신은 어떤 독자일까요?"}
+                  {readerType ? `${readerType}` : "당신은 어떤 독자일까요?"}
                 </h2>
 
                 <Image

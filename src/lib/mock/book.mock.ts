@@ -13,6 +13,7 @@ export const mockBookDetail: BookDetail = {
 export const mockBookReviews: BookReviewResponse = {
   reviews: [
     {
+      bookId: 1,
       reviewId: 1,
       authorId: 1,
       authorNickname: "숨어버린 고양이",
@@ -23,6 +24,7 @@ export const mockBookReviews: BookReviewResponse = {
       cardColor: "pink",
     },
     {
+      bookId: 2,
       reviewId: 2,
       authorId: 2,
       authorNickname: "책벌레",
@@ -33,6 +35,7 @@ export const mockBookReviews: BookReviewResponse = {
       cardColor: "blue",
     },
     {
+      bookId: 3,
       reviewId: 3,
       authorId: 3,
       authorNickname: "문학소녀",
@@ -43,6 +46,7 @@ export const mockBookReviews: BookReviewResponse = {
       cardColor: "purple",
     },
     {
+      bookId: 4,
       reviewId: 4,
       authorId: 4,
       authorNickname: "밤독서",
@@ -53,6 +57,7 @@ export const mockBookReviews: BookReviewResponse = {
       cardColor: "yellow",
     },
     {
+      bookId: 5,
       reviewId: 5,
       authorId: 5,
       authorNickname: "활자중독",

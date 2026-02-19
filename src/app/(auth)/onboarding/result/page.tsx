@@ -1,16 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Button from "@/components/common/Button";
 import ResultDescription from "@/components/onboarding/ResultDescription";
-import {
-  mockOnboardingResult,
-  OnboardingResult,
-} from "@/lib/mock/onboardingResult.mock";
+import { useOnboardingStore } from "@/store/onboarding.store";
 
-// 카테고리 코드 → 한글 매핑
 const CATEGORY_MAP: Record<number, string> = {
   1: "시",
   2: "소설",
@@ -19,36 +14,12 @@ const CATEGORY_MAP: Record<number, string> = {
 
 export default function OnboardingResultPage() {
   const router = useRouter();
-  const [result, setResult] = useState<OnboardingResult | null>(null);
+  const { resultData, reset } = useOnboardingStore();
 
-  useEffect(() => {
-    const fetchResult = async () => {
-      try {
-        // API 연동 시, readerType, testResultCode를 query 또는 body로 전달 예정
-        const res = await fetch("/api/login/onboarding");
-
-        if (!res.ok) {
-          throw new Error("API Error");
-        }
-
-        const data = await res.json();
-
-        setResult(data.data);
-      } catch (error) {
-        console.error("결과 API 실패 → mock fallback", error);
-
-        // 실패 시, fallback
-        setResult(mockOnboardingResult);
-      }
-    };
-
-    fetchResult();
-  }, []);
-
-  if (!result) return null;
+  if (!resultData) return null;
 
   const { readerType, readerTitle, descriptionLines, recommendedCategoryCode } =
-    result;
+    resultData;
 
   const imageFileName = readerType.toLowerCase().replace("_", "-");
 
@@ -72,7 +43,7 @@ export default function OnboardingResultPage() {
           height={30}
         />
 
-        <h2 className="text-primary-dark text-h1_m">{readerTitle} 독자</h2>
+        <h2 className="text-primary-dark text-h1_m">{readerTitle}</h2>
 
         <Image
           src="/onboarding/quotes-back.svg"
@@ -97,11 +68,8 @@ export default function OnboardingResultPage() {
 
       {/* 하단 버튼 */}
       <div className="mt-auto w-full">
-        <Button
-          onClick={() => router.push("/onboarding/nickname")}
-          className="w-full"
-        >
-          닉네임 설정
+        <Button onClick={() => router.push("/home")} className="w-full">
+          그리드 시작
         </Button>
       </div>
     </div>

@@ -2,24 +2,28 @@ import { create } from "zustand";
 
 type BitValue = 0 | 1;
 
+interface ResultData {
+  readerType: string;
+  readerTitle: string;
+  descriptionLines: string[];
+  recommendedCategoryCode: number;
+}
+
 interface OnboardingState {
-  // test 단계
   answers: BitValue[];
   testResultCode: string | null;
   readerType: string | null;
 
-  // nickname 단계
   nickname: string;
-
-  // 로그인 단계에서 받아올 값
   email: string | null;
 
-  // actions
+  resultData: ResultData | null;
+
   setAnswers: (answers: BitValue[]) => void;
   setTestResult: (testResultCode: string, readerType: string) => void;
   setNickname: (nickname: string) => void;
   setEmail: (email: string) => void;
-
+  setResultData: (data: ResultData) => void;
   reset: () => void;
 }
 
@@ -29,6 +33,7 @@ export const useOnboardingStore = create<OnboardingState>((set) => ({
   readerType: null,
   nickname: "",
   email: null,
+  resultData: null,
 
   setAnswers: (answers) => set({ answers }),
 
@@ -42,6 +47,8 @@ export const useOnboardingStore = create<OnboardingState>((set) => ({
 
   setEmail: (email) => set({ email }),
 
+  setResultData: (data) => set({ resultData: data }),
+
   reset: () =>
     set({
       answers: [],
@@ -49,5 +56,6 @@ export const useOnboardingStore = create<OnboardingState>((set) => ({
       readerType: null,
       nickname: "",
       email: null,
+      resultData: null,
     }),
 }));

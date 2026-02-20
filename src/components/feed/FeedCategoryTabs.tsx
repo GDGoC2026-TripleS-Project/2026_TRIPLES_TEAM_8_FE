@@ -7,32 +7,28 @@ interface Props {
   onSelect: (cat: CategoryType) => void;
 }
 
-const CATEGORY_MAP: Record<CategoryType, string> = {
-  ALL: "전체",
-  CREATIVE: "창작",
-  ESSAY: "에세이",
-  SPEECH: "스피치",
-  JOURNALISM: "저널리즘",
-  HUMOR: "유머",
-};
+const CATEGORY_LIST: CategoryType[] = [
+  "전체",
+  "창작",
+  "에세이",
+  "유머",
+  "저널리즘",
+];
 
 export default function FeedCategoryTabs({ selected, onSelect }: Props) {
   return (
-    <div className="flex gap-6 mb-6 text-h2_sb">
-      {Object.keys(CATEGORY_MAP).map((cat) => (
+    <div className="flex px-2 gap-8 mb-6 text-h2_sb">
+      {CATEGORY_LIST.map((cat) => (
         <button
           key={cat}
-          onClick={() => onSelect(cat as CategoryType)}
-          className={`
-            pb-1 border-b-2 transition-colors
-            ${
-              selected === cat
-                ? "text-primary-dark border-primary-warm"
-                : "text-gray-text2 border-transparent"
-            }
-          `}
+          onClick={() => onSelect(cat)}
+          className={
+            selected === cat
+              ? "text-primary-dark border-b-2 border-primary-warm"
+              : "text-gray-text2"
+          }
         >
-          {CATEGORY_MAP[cat as CategoryType]}
+          {cat}
         </button>
       ))}
     </div>

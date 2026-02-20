@@ -12,8 +12,11 @@ interface Props {
 export default function FeedCard({ book }: Props) {
   const router = useRouter();
 
-  const color1 = KEYWORD_COLOR_MAP[book.keywords[0]] ?? "var(--kw-light)";
-  const color2 = KEYWORD_COLOR_MAP[book.keywords[1]] ?? color1;
+  const cleanKeyword1 = book.keyword1.replace("#", "");
+  const cleanKeyword2 = book.keyword2.replace("#", "");
+
+  const color1 = KEYWORD_COLOR_MAP[cleanKeyword1] ?? "var(--kw-light)";
+  const color2 = KEYWORD_COLOR_MAP[cleanKeyword2] ?? color1;
 
   return (
     <div
@@ -46,15 +49,13 @@ export default function FeedCard({ book }: Props) {
           이 책의 리뷰 ({book.reviewCount})
         </div>
 
-        <div className="flex gap-1 mt-4">
-          {book.keywords.map((kw) => (
-            <span
-              key={kw}
-              className="h-[24px] px-3 py-1 text-body_m rounded-full border border-stroke text-primary-dark"
-            >
-              #{kw}
-            </span>
-          ))}
+        <div className="flex gap-2 mt-4">
+          <span className="h-[24px] px-3 py-1 text-body_m rounded-full border border-stroke">
+            {book.keyword1}
+          </span>
+          <span className="h-[24px] px-3 py-1 text-body_m rounded-full border border-stroke">
+            {book.keyword2}
+          </span>
         </div>
       </div>
     </div>

@@ -10,14 +10,13 @@ import Button from "@/components/common/Button";
 import { fetchHomeRecommend } from "@/lib/api/home.api";
 import { fetchLatestReviews } from "@/lib/api/review.api";
 
-import { HomeReview } from "@/types/home";
-import ReaderTitle from "@/components/home/ReaderTitle";
+import { BookReview } from "@/types/book";
 
 export default function HomePage() {
   const [nickname, setNickname] = useState<string>("방문자");
   const [readerType, setReaderType] = useState<string | null>(null);
   const [readerTitle, setReaderTitle] = useState<string | null>(null);
-  const [reviews, setReviews] = useState<HomeReview[]>([]);
+  const [reviews, setReviews] = useState<BookReview[]>([]);
   const [buttonActive, setButtonActive] = useState(false);
 
   useEffect(() => {

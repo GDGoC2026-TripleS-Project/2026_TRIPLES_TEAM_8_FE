@@ -1,5 +1,5 @@
 import { CreateReviewRequest, CreateReviewResponse } from "@/types/review";
-import { HomeReview } from "@/types/home";
+import { BookReview } from "@/types/book";
 
 export async function createReview(
   bookId: number,
@@ -21,7 +21,7 @@ export async function createReview(
   return res.json();
 }
 
-export async function fetchLatestReviews(): Promise<HomeReview[]> {
+export async function fetchLatestReviews(): Promise<BookReview[]> {
   const res = await fetch("/api/books/1/reviews/ranking/latest");
 
   if (!res.ok) {

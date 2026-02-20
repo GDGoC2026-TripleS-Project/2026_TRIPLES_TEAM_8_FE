@@ -3,22 +3,22 @@ export interface BookDetail {
   title: string;
   author: string;
   publisher: string;
+  majorName: string;
   keyword1: string;
   keyword2: string;
   reviewCount: number;
 }
 
-export type ReviewCardColor = "pink" | "yellow" | "blue" | "purple";
-
 export interface BookReview {
-  bookId: number;
   reviewId: number;
-  authorId: number;
-  authorNickname: string;
-  authorProfileImage: string;
-  content: string;
+  profileId: number;
+  bookId: number;
+  nickname: string;
+  reviewColor: "GRAY" | "PINK" | "YELLOW" | "BLUE" | "PURPLE";
+  reviewContent: string;
   createdAt: string;
-  cardColor: ReviewCardColor;
+  updatedAt: string;
+  createdTimeAgo: number;
 }
 
 export interface BookReviewResponse {

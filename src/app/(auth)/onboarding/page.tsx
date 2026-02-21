@@ -1,5 +1,12 @@
-import OnboardingScreen from "@/components/onboarding/OnboardingScreen";
+import OnboardingClient from "./OnboardingClient";
 
-export default function Page() {
-  return <OnboardingScreen />;
+export const dynamic = "force-dynamic";
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ code?: string }>;
+}) {
+  const params = await searchParams;
+  return <OnboardingClient code={params.code} />;
 }

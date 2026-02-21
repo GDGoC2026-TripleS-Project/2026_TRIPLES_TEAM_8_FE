@@ -1,4 +1,4 @@
-import TopNavBar from "@/components/layout/TopNavBar";
+// import TopNavBar from "@/components/layout/TopNavBar";
 
 export default function PublicLayout({
   children,
@@ -7,7 +7,7 @@ export default function PublicLayout({
 }) {
   return (
     <div className="min-h-screen bg-background">
-      <TopNavBar />
+      {/* <TopNavBar /> */}
       <main>{children}</main>
     </div>
   );

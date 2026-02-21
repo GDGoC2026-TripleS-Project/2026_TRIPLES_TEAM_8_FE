@@ -21,7 +21,7 @@ export async function fetchLatestReviews(): Promise<BookReview[]> {
     code: string;
     message: string;
     data: BookReview[];
-  }>("/api/books/reviews/ranking/latest");
+  }>("/api/reviews/ranking/latest");
 
   return res.data;
 }

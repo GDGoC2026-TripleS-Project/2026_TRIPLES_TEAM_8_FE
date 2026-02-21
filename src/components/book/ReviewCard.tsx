@@ -2,17 +2,17 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { BaseReview } from "@/types/review";
+import { HomeReview } from "@/types/home";
 
 interface Props {
-  review: BaseReview;
+  review: HomeReview;
   align?: "left" | "right";
 }
 
 export default function ReviewCard({ review, align }: Props) {
   const router = useRouter();
 
-  const colorMap = {
+  const colorMap: Record<string, string> = {
     GRAY: "bg-gray-bg",
     PINK: "bg-card-pink",
     YELLOW: "bg-card-yellow",
@@ -29,6 +29,16 @@ export default function ReviewCard({ review, align }: Props) {
     router.push(`/books/${review.bookId}`);
   };
 
+  const getTimeAgoText = () => {
+    if (!review.createdTimeAgo) return "";
+
+    if (review.createdTimeAgo < 1) return "방금 전";
+    if (review.createdTimeAgo < 24) return `${review.createdTimeAgo}시간 전`;
+
+    const days = Math.floor(review.createdTimeAgo / 24);
+    return `${days}일 전`;
+  };
+
   return (
     <div
       onClick={handleClick}
@@ -43,25 +53,26 @@ export default function ReviewCard({ review, align }: Props) {
     >
       {/* 리뷰 내용 */}
       <p className="text-h2_m leading-relaxed whitespace-pre-line">
-        {review.content}
+        {review.reviewContent}
       </p>
 
       {/* 작성자 정보 */}
       <div className="flex items-center gap-3 mt-6">
         <Image
-          src={review.profileImage || "/common/default-profile.png"}
+          src={`/api/profile/image/${review.profileId}`}
           alt="profile"
           width={40}
           height={40}
-          className="rounded-full"
+          className="rounded-full object-cover"
         />
 
         <div className="flex flex-col gap-1">
           <span className="text-h3_sb text-primary-dark">
-            {review.authorNickname}
+            {review.nickname}
           </span>
+
           <span className="text-body_m text-gray-text2">
-            {/* · {getHoursAgo(review.createdAt)} */}
+            {getTimeAgoText()}
           </span>
         </div>
       </div>

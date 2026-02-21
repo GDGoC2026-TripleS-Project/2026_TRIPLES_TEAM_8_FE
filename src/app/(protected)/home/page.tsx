@@ -15,21 +15,22 @@ import { BookReview } from "@/types/book";
 
 export default function HomePage() {
   const router = useRouter();
+
   const [nickname, setNickname] = useState<string>("예비 그리더");
   const [readerType, setReaderType] = useState<string | null>(null);
   const [readerTitle, setReaderTitle] = useState<string | null>(null);
   const [reviews, setReviews] = useState<BookReview[]>([]);
   const [buttonActive, setButtonActive] = useState(false);
 
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+
+  const isLoggedIn = !!token;
+
   useEffect(() => {
     async function load() {
-      const token =
-        typeof window !== "undefined"
-          ? localStorage.getItem("accessToken")
-          : null;
-
       try {
-        if (token) {
+        if (isLoggedIn) {
           const data = await fetchHomeRecommend();
 
           setNickname(data.nickname);
@@ -46,14 +47,19 @@ export default function HomePage() {
     }
 
     load();
-  }, []);
+  }, [isLoggedIn]);
 
   const handleRefresh = async () => {
     setButtonActive(true);
 
     try {
-      const data = await fetchHomeRecommend();
-      setReviews(data.reviews);
+      if (isLoggedIn) {
+        const data = await fetchHomeRecommend();
+        setReviews(data.reviews);
+      } else {
+        const data = await fetchLatestReviews();
+        setReviews(data);
+      }
     } catch (e) {
       console.error(e);
     }
@@ -62,9 +68,6 @@ export default function HomePage() {
       setButtonActive(false);
     }, 800);
   };
-
-  const isLoggedIn =
-    typeof window !== "undefined" && !!localStorage.getItem("accessToken");
 
   return (
     <div>
@@ -81,11 +84,9 @@ export default function HomePage() {
                   width={24}
                   height={24}
                 />
-
                 <h2 className="text-primary-dark text-h2_sb">
                   {readerTitle ? readerTitle : "당신의 독자 유형은?"}
                 </h2>
-
                 <Image
                   src="/onboarding/quotes-back.svg"
                   alt="quote-back"
@@ -102,30 +103,31 @@ export default function HomePage() {
                     G.read에서 골라보세요
                   </>
                 ) : (
-                  "회원이 되면 나만의 기록을 추천받을 수 있어요!"
+                  <>
+                    회원이 되면 나만의 <br />
+                    기록을 추천받을 수 있어요!
+                  </>
                 )}
               </p>
 
-              {/* 🔥 비로그인일 때만 회원가입 버튼 */}
+              {/* 비로그인일 때만 회원가입 버튼 */}
               {!isLoggedIn && (
                 <div className="mt-6">
                   <button
                     onClick={() => router.push("/")}
                     className="
-          flex items-center gap-2
-          px-6 py-3
-          bg-white
-          rounded-full
-          shadow-sm
-          text-primary-dark text-h3_sb
-        "
+                      flex items-center gap-2
+                      px-6 py-3
+                      bg-white rounded-full shadow-sm
+                      text-primary-dark text-h3_sb
+                    "
                   >
                     G.read 회원가입
                     <Image
                       src="/common/icon-login.svg"
                       alt="login"
-                      width={20}
-                      height={20}
+                      width={16}
+                      height={16}
                     />
                   </button>
                 </div>
@@ -163,27 +165,25 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* 새로운 추천 기록 버튼 */}
-        {isLoggedIn && (
-          <div className="px-6">
-            <Button
-              onClick={handleRefresh}
-              className={`w-full transition-colors duration-300 ${
-                buttonActive ? "bg-primary-light" : ""
-              }`}
-              leftIcon={
-                <Image
-                  src="/common/icon-again.svg"
-                  alt="again"
-                  width={20}
-                  height={20}
-                />
-              }
-            >
-              새로운 추천 기록
-            </Button>
-          </div>
-        )}
+        {/* 로그인 여부 상관 X 버튼 표시 */}
+        <div className="px-6">
+          <Button
+            onClick={handleRefresh}
+            className={`w-full transition-colors duration-300 ${
+              buttonActive ? "bg-primary-light" : ""
+            }`}
+            leftIcon={
+              <Image
+                src="/common/icon-again.svg"
+                alt="again"
+                width={20}
+                height={20}
+              />
+            }
+          >
+            새로운 추천 기록
+          </Button>
+        </div>
       </div>
     </div>
   );

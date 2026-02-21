@@ -51,6 +51,7 @@ const config: Config = {
           light: "var(--kw-light)",
           immersive: "var(--kw-immersive)",
           aftertaste: "var(--kw-aftertaste)",
+          speed: "var(--kw-speed)",
           insight: "var(--kw-insight)",
           shift: "var(--kw-shift)",
           bright: "var(--kw-bright)",

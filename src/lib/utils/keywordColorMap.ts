@@ -9,6 +9,7 @@ export const KEYWORD_COLOR_MAP: Record<string, string> = {
   가볍게_읽기_좋은: "var(--kw-light)",
   몰입되는: "var(--kw-immersive)",
   여운이_남는: "var(--kw-aftertaste)",
+  속도감_있는: "var(--kw-speed)",
   시선을_바꾸는: "var(--kw-insight)",
 
   밝은: "var(--kw-bright)",

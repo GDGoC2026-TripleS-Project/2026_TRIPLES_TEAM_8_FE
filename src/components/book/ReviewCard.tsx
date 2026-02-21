@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { HomeReview } from "@/types/home";
+import { ReviewData } from "@/types/review";
 
 interface Props {
-  review: HomeReview;
+  review: ReviewData;
   align?: "left" | "right";
 }
 
@@ -20,17 +20,15 @@ export default function ReviewCard({ review, align }: Props) {
     PURPLE: "bg-card-purple",
   };
 
-  const bgColor =
-    review.reviewColor && colorMap[review.reviewColor]
-      ? colorMap[review.reviewColor]
-      : "bg-gray-bg";
+  const bgColor = colorMap[review.reviewColor] ?? "bg-gray-bg";
 
   const handleClick = () => {
     router.push(`/books/${review.bookId}`);
   };
 
   const getTimeAgoText = () => {
-    if (!review.createdTimeAgo) return "";
+    if (review.createdTimeAgo === undefined || review.createdTimeAgo === null)
+      return "";
 
     if (review.createdTimeAgo < 1) return "방금 전";
     if (review.createdTimeAgo < 24) return `${review.createdTimeAgo}시간 전`;
@@ -51,28 +49,26 @@ export default function ReviewCard({ review, align }: Props) {
         ${align === "left" ? "mr-auto" : align === "right" ? "ml-auto" : ""}
       `}
     >
-      {/* 리뷰 내용 */}
       <p className="text-h2_m leading-relaxed whitespace-pre-line">
         {review.reviewContent}
       </p>
 
-      {/* 작성자 정보 */}
       <div className="flex items-center gap-3 mt-6">
-        <Image
+        {/* <Image
           src={`/api/profile/image/${review.profileId}`}
           alt="profile"
           width={40}
           height={40}
           className="rounded-full object-cover"
-        />
+        /> */}
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2">
           <span className="text-h3_sb text-primary-dark">
             {review.nickname}
           </span>
 
           <span className="text-body_m text-gray-text2">
-            {getTimeAgoText()}
+            · {getTimeAgoText()}
           </span>
         </div>
       </div>

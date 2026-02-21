@@ -10,9 +10,6 @@ import ReviewCompleteModal from "@/components/review/ReviewCompleteModal";
 import { createReview } from "@/lib/api/review.api";
 import { fetchBookDetail } from "@/lib/api/book.api";
 
-import { mockCreateReviewResponse } from "@/lib/mock/review.mock";
-import { mockBookDetail } from "@/lib/mock/book.mock";
-
 import { ReviewColor } from "@/types/review";
 import { BookDetail } from "@/types/book";
 
@@ -38,19 +35,18 @@ export default function ReviewWritePage() {
   const [content, setContent] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [showComplete, setShowComplete] = useState(false);
 
   const isValid = content.length >= 10 && content.length <= 100;
 
-  /* 책 제목 fetch */
+  /* 책 정보 로딩 */
   useEffect(() => {
     async function load() {
       try {
         const data = await fetchBookDetail(Number(bookId));
         setBook(data);
-      } catch {
-        setBook(mockBookDetail);
+      } catch (e) {
+        console.error("Book Load Error", e);
       }
     }
     load();
@@ -63,31 +59,29 @@ export default function ReviewWritePage() {
       return;
     }
 
-    setLoading(true);
-
     try {
-      await createReview(Number(bookId), {
+      setLoading(true);
+
+      const res = await createReview(Number(bookId), {
         reviewColor: selectedColor,
         reviewContent: content,
       });
-    } catch {
-      console.log("mock fallback", mockCreateReviewResponse);
+
+      if (res.success) {
+        setShowComplete(true);
+      }
+    } catch (e) {
+      console.error("Review Create Error", e);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
-
-    // 완료 모달 오픈
-    setShowComplete(true);
   };
 
   if (!book) return null;
 
   return (
     <>
-      {/* 상단 고정 헤더 */}
       <BackHeader title={book.title} />
-
-      {/* 본문 */}
       <div className="px-6 pt-[70px] pb-[100px]">
         {/* 색상 선택 */}
         <div className="mt-4">
@@ -113,8 +107,7 @@ export default function ReviewWritePage() {
             ))}
           </div>
         </div>
-
-        {/* 내용 입력 */}
+        {/* 텍스트 입력 */}
         <div className="mt-14">
           <p className="text-h2_m mb-4">이 문학이 남긴 색을 적어보세요</p>
 
@@ -141,7 +134,6 @@ export default function ReviewWritePage() {
             </p>
           )}
         </div>
-
         {/* 유의사항 */}
         <div className="mt-8 bg-gray-bg rounded-xl p-4 text-gray-text2 space-y-3">
           <p className="text-body_sb">기록 작성 시 유의사항</p>
@@ -150,7 +142,6 @@ export default function ReviewWritePage() {
             <li>스포일러는 가급적 피해주세요.</li>
             <li>다른 독자의 취향을 존중해주세요.</li>
           </ul>
-
           <p className="text-body_sb">
             아래와 같은 경우, 신고 또는 숨김 처리될 수 있어요.
           </p>
@@ -161,7 +152,6 @@ export default function ReviewWritePage() {
           </ul>
         </div>
       </div>
-
       {/* 하단 버튼 */}
       <div className="fixed bottom-6 left-0 w-full px-6">
         <Button
@@ -172,11 +162,12 @@ export default function ReviewWritePage() {
           {loading ? "등록 중..." : "리뷰 등록"}
         </Button>
       </div>
-
-      {/* 완료 모달 */}
       <ReviewCompleteModal
         open={showComplete}
-        onClose={() => setShowComplete(false)}
+        onClose={() => {
+          setShowComplete(false);
+          router.push("/feed");
+        }}
       />
     </>
   );

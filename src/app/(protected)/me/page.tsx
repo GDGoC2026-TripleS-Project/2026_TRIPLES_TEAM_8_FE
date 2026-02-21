@@ -10,12 +10,17 @@ import { BookReview } from "@/types/book";
 
 import TopNavBar from "@/components/layout/TopNavBar";
 import ReviewCardDelete from "@/components/me/ReviewCardDelete";
+import Button from "@/components/common/Button";
 
 export default function MyPage() {
   const router = useRouter();
 
   const token =
     typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/login`;
+  };
 
   const [user, setUser] = useState<null | {
     id: number;
@@ -47,19 +52,43 @@ export default function MyPage() {
     return (
       <div>
         <TopNavBar />
+        {/* 전체 화면 영역 */}
+        <div className="min-h-screen flex flex-col px-6 py-16 text-center">
+          {/* 가운데 콘텐츠 */}
+          <div className="flex-1 flex flex-col items-center mt-40">
+            <Image
+              src="/common/logo-circle.svg"
+              alt="logo"
+              width={100}
+              height={100}
+            />
+            <p className="mt-8 text-h2_m text-primary">
+              그리드 가입 후,
+              <br />
+              나만의 기록을 자유롭게 남겨봐요!
+            </p>
+            <p className="mt-2 text-h3_m text-primary-warm">
+              기록이 머무는 당신만의 공간, G.read
+            </p>
+          </div>
 
-        <div className="flex flex-col items-center justify-center h-[80vh] px-6 text-center">
-          <Image src="/logo-circle.svg" alt="logo" width={120} height={120} />
-          <p className="mt-8 text-h2_sb">
-            그리드 가입 후 나만의 기록을 자유롭게 남겨봐요!
-          </p>
-
-          <button
-            onClick={() => router.push("/login")}
-            className="mt-12 w-full bg-primary-dark text-white py-4 rounded-xl"
-          >
-            Google로 시작하기
-          </button>
+          {/* 하단 버튼 영역 */}
+          <div className="pb-10">
+            <Button
+              onClick={handleGoogleLogin}
+              className="w-full"
+              leftIcon={
+                <Image
+                  src="/onboarding/icon-google.svg"
+                  alt="google"
+                  width={20}
+                  height={20}
+                />
+              }
+            >
+              Google로 시작
+            </Button>
+          </div>
         </div>
       </div>
     );

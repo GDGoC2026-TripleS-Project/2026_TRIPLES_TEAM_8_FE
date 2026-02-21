@@ -13,7 +13,7 @@ export default function AuthEntryPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-between h-screen px-6 py-16">
+    <div className="min-h-dvh flex flex-col items-center justify-between h-screen px-6 py-16">
       <div className="flex flex-col items-center gap-6 mt-24">
         <Image src="/common/logo.svg" alt="logo" width={160} height={80} />
 

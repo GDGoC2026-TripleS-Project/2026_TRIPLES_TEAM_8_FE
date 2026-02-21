@@ -22,8 +22,8 @@ export default function RankingPage() {
     async function load() {
       try {
         // TOP 5 (회원, 비회원)
-        const top = await fetchTopRanking();
-        setTopUsers(top);
+        const topUsers = await fetchTopRanking();
+        setTopUsers(topUsers);
       } catch (e) {
         console.error("Top Ranking API Error", e);
       }

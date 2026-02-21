@@ -32,10 +32,6 @@ export default function HomePage() {
       try {
         if (isLoggedIn) {
           const data = await fetchHomeRecommend();
-
-          setNickname(data.nickname);
-          setReaderType(data.readerType);
-          setReaderTitle(data.readerTitle);
           setReviews(data.reviews);
         } else {
           const data = await fetchLatestReviews();
@@ -68,6 +64,48 @@ export default function HomePage() {
       setButtonActive(false);
     }, 800);
   };
+
+  // useEffect(() => {
+  //   async function load() {
+  //     try {
+  //       if (isLoggedIn) {
+  //         const data = await fetchHomeRecommend();
+
+  //         setNickname(data.nickname);
+  //         setReaderType(data.readerType);
+  //         setReaderTitle(data.readerTitle);
+  //         setReviews(data.reviews);
+  //       } else {
+  //         const data = await fetchLatestReviews();
+  //         setReviews(data);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+
+  //   load();
+  // }, [isLoggedIn]);
+
+  // const handleRefresh = async () => {
+  //   setButtonActive(true);
+
+  //   try {
+  //     if (isLoggedIn) {
+  //       const data = await fetchHomeRecommend();
+  //       setReviews(data.reviews);
+  //     } else {
+  //       const data = await fetchLatestReviews();
+  //       setReviews(data);
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+
+  //   setTimeout(() => {
+  //     setButtonActive(false);
+  //   }, 800);
+  // };
 
   return (
     <div>

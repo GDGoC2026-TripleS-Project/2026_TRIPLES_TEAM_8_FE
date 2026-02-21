@@ -2,12 +2,10 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import MenuDrawer from "./MenuDrawer";
 
 export default function TopNavBar() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   return (
     <>
@@ -17,7 +15,6 @@ export default function TopNavBar() {
           <div className="relative h-[30px] w-[80px]">
             <Image
               src="/common/logo.svg"
-              onClick={() => router.push("/home")}
               alt="Gread"
               fill
               className="object-contain"

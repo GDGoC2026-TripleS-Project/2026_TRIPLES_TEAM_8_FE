@@ -23,7 +23,7 @@ export default function OnboardingClient({ code }: Props) {
 
   const TOTAL = 3;
 
-  // 로그인 callback 처리
+  // 🔥 로그인 callback 처리
   useEffect(() => {
     if (!code) return;
 

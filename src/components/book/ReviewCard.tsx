@@ -54,13 +54,12 @@ export default function ReviewCard({ review, align }: Props) {
       </p>
 
       <div className="flex items-center gap-3 mt-6">
-        {/* <Image
-          src={`/api/profile/image/${review.profileId}`}
-          alt="profile"
+        <Image
+          src="/common/icon-user-circle.svg"
+          alt="top"
           width={40}
           height={40}
-          className="rounded-full object-cover"
-        /> */}
+        />
 
         <div className="flex flex-col gap-2">
           <span className="text-h3_sb text-primary-dark">

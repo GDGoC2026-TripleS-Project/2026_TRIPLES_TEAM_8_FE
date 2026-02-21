@@ -27,3 +27,15 @@ export const getMe = () => {
     method: "GET",
   });
 };
+
+export async function logout() {
+  return apiFetch("/api/login/logout", {
+    method: "POST",
+  });
+}
+
+export async function deleteAccount() {
+  return apiFetch("/api/users/me", {
+    method: "DELETE",
+  });
+}

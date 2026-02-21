@@ -1,12 +1,8 @@
-// lib/api/review.api.ts
+import { apiFetch } from "./fetcher";
+import { BookReview } from "@/types/book";
+import { CreateReviewRequest, CreateReviewResponse } from "@/types/review";
 
-import { apiFetch } from "@/lib/api/fetcher";
-import {
-  CreateReviewRequest,
-  CreateReviewResponse,
-  ReviewData,
-} from "@/types/review";
-
+// 리뷰 생성
 export async function createReview(
   bookId: number,
   body: CreateReviewRequest,
@@ -17,14 +13,22 @@ export async function createReview(
   });
 }
 
-export async function fetchLatestReviews(): Promise<ReviewData[]> {
+// 최신 리뷰 조회 (홈 화면)
+export async function fetchLatestReviews(): Promise<BookReview[]> {
   const res = await apiFetch<{
     status: number;
     success: boolean;
     code: string;
     message: string;
-    data: ReviewData[];
+    data: BookReview[];
   }>("/api/books/reviews/ranking/latest");
 
   return res.data;
+}
+
+// 리뷰 삭제 (마이페이지)
+export async function deleteReview(reviewId: number) {
+  return apiFetch(`/api/reviews/${reviewId}`, {
+    method: "DELETE",
+  });
 }

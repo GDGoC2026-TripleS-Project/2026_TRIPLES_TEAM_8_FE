@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import TopNavBar from "@/components/layout/TopNavBar";
@@ -13,7 +14,8 @@ import { fetchLatestReviews } from "@/lib/api/review.api";
 import { BookReview } from "@/types/book";
 
 export default function HomePage() {
-  const [nickname, setNickname] = useState<string>("방문자");
+  const router = useRouter();
+  const [nickname, setNickname] = useState<string>("예비 그리더");
   const [readerType, setReaderType] = useState<string | null>(null);
   const [readerTitle, setReaderTitle] = useState<string | null>(null);
   const [reviews, setReviews] = useState<BookReview[]>([]);
@@ -81,7 +83,7 @@ export default function HomePage() {
                 />
 
                 <h2 className="text-primary-dark text-h2_sb">
-                  {readerTitle ? readerTitle : "당신은 어떤 독자일까요?"}
+                  {readerTitle ? readerTitle : "당신의 독자 유형은?"}
                 </h2>
 
                 <Image
@@ -92,10 +94,42 @@ export default function HomePage() {
                 />
               </div>
 
+              {/* 설명 문구 */}
               <p className="text-h3_m text-gray-text2 leading-relaxed">
-                오늘의 기분에 가까운 문학을 <br />
-                G.read에서 골라보세요
+                {isLoggedIn ? (
+                  <>
+                    오늘의 기분에 가까운 문학을 <br />
+                    G.read에서 골라보세요
+                  </>
+                ) : (
+                  "회원이 되면 나만의 기록을 추천받을 수 있어요!"
+                )}
               </p>
+
+              {/* 🔥 비로그인일 때만 회원가입 버튼 */}
+              {!isLoggedIn && (
+                <div className="mt-6">
+                  <button
+                    onClick={() => router.push("/")}
+                    className="
+          flex items-center gap-2
+          px-6 py-3
+          bg-white
+          rounded-full
+          shadow-sm
+          text-primary-dark text-h3_sb
+        "
+                  >
+                    G.read 회원가입
+                    <Image
+                      src="/common/icon-login.svg"
+                      alt="login"
+                      width={20}
+                      height={20}
+                    />
+                  </button>
+                </div>
+              )}
             </div>
 
             <Image
@@ -111,8 +145,8 @@ export default function HomePage() {
         <div className="mt-10 px-6">
           <h3 className="text-h2_sb">
             {isLoggedIn
-              ? `${nickname} 님, 오늘의 기록 추천이에요!`
-              : "오늘의 기록 추천이에요!"}
+              ? `${nickname} 님, 오늘의 추천 기록이에요!`
+              : "오늘의 추천 기록이에요!"}
           </h3>
 
           <p className="text-body_m text-gray-text2 mt-2">

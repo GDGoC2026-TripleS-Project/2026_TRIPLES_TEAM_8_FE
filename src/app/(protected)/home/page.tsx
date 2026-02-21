@@ -31,12 +31,8 @@ export default function HomePage() {
     async function load() {
       try {
         if (isLoggedIn) {
-          const data = await fetchHomeRecommend();
-
-          setNickname(data.nickname);
-          setReaderType(data.readerType);
-          setReaderTitle(data.readerTitle);
-          setReviews(data.reviews);
+          const data = await fetchLatestReviews();
+          setReviews(data);
         } else {
           const data = await fetchLatestReviews();
           setReviews(data);
@@ -54,8 +50,8 @@ export default function HomePage() {
 
     try {
       if (isLoggedIn) {
-        const data = await fetchHomeRecommend();
-        setReviews(data.reviews);
+        const data = await fetchLatestReviews();
+        setReviews(data);
       } else {
         const data = await fetchLatestReviews();
         setReviews(data);
@@ -147,8 +143,8 @@ export default function HomePage() {
         <div className="mt-10 px-6">
           <h3 className="text-h2_sb">
             {isLoggedIn
-              ? `${nickname} 님, 오늘의 추천 기록이에요!`
-              : "오늘의 추천 기록이에요!"}
+              ? `${nickname} 님, 오늘의 최신 기록이에요!`
+              : "오늘의 최신 기록이에요!"}
           </h3>
 
           <p className="text-body_m text-gray-text2 mt-2">

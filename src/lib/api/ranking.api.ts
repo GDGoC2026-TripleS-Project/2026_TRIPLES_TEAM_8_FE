@@ -1,27 +1,20 @@
-import { RankingResponse, MyRankingResponse } from "@/types/ranking";
+import { apiFetch } from "./fetcher";
+import {
+  RankingResponse,
+  MyRankingResponse,
+  RankingUser,
+} from "@/types/ranking";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
+// TOP 5 랭킹 조회
+export async function fetchTopRanking(): Promise<RankingUser[]> {
+  const res = await apiFetch<RankingResponse>("/api/reviews/ranking");
 
-export async function fetchTopRanking(): Promise<RankingResponse> {
-  const res = await fetch(`${BASE_URL}/api/reviews/ranking`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    },
-  });
-
-  if (!res.ok) throw new Error("Ranking API Error");
-
-  return res.json();
+  return res.data;
 }
 
-export async function fetchMyRanking(): Promise<MyRankingResponse> {
-  const res = await fetch(`${BASE_URL}/api/reviews/rankig/me`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    },
-  });
+// 내 랭킹 조회
+export async function fetchMyRanking(): Promise<RankingUser> {
+  const res = await apiFetch<MyRankingResponse>("/api/reviews/ranking/me");
 
-  if (!res.ok) throw new Error("My Ranking API Error");
-
-  return res.json();
+  return res.data;
 }

@@ -4,11 +4,6 @@ import { useEffect, useState } from "react";
 
 import { fetchTopRanking, fetchMyRanking } from "@/lib/api/ranking.api";
 
-import {
-  mockRankingResponse,
-  mockMyRankingResponse,
-} from "@/lib/mock/ranking.mock";
-
 import { RankingUser } from "@/types/ranking";
 import RankMedal from "@/components/ranking/RankMedal";
 import TopNavBar from "@/components/layout/TopNavBar";
@@ -25,23 +20,21 @@ export default function RankingPage() {
 
   useEffect(() => {
     async function load() {
-      /* 상위 5명 */
       try {
-        const top = await fetchTopRanking();
-        setTopUsers(top.data);
-      } catch {
-        console.log("Top Ranking → mock fallback");
-        setTopUsers(mockRankingResponse.data);
+        // TOP 5 (회원, 비회원)
+        const topUsers = await fetchTopRanking();
+        setTopUsers(topUsers);
+      } catch (e) {
+        console.error("Top Ranking API Error", e);
       }
 
-      /* 내 랭킹 (로그인한 경우만) */
+      // 내 랭킹 (회원)
       if (isLoggedIn) {
         try {
           const me = await fetchMyRanking();
-          setMyRank(me.data);
-        } catch {
-          console.log("My Ranking → mock fallback");
-          setMyRank(mockMyRankingResponse.data);
+          setMyRank(me);
+        } catch (e) {
+          console.error("My Ranking API Error", e);
         }
       }
     }
@@ -103,8 +96,8 @@ export default function RankingPage() {
             </>
           ) : (
             <>
-              <span className="text-h2_m">-</span>
-              <span className="text-h2_m text-gray-text2">
+              <span className="px-5 text-h2_m">-</span>
+              <span className="px-6 text-h2_m text-gray-text2">
                 로그인 후 자기 랭킹을 확인해보세요
               </span>
             </>

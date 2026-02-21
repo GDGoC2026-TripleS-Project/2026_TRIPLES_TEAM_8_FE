@@ -10,7 +10,7 @@ type Props = {
 };
 
 const MENUS = [
-  { href: "/", label: "홈", icon: "/common/icon-home.svg" },
+  { href: "/home", label: "홈", icon: "/common/icon-home.svg" },
   { href: "/feed", label: "도서 찾기 피드", icon: "/common/icon-book.svg" },
   { href: "/ranking", label: "랭킹", icon: "/common/icon-award.svg" },
   { href: "/me", label: "마이페이지", icon: "/common/icon-user.svg" },

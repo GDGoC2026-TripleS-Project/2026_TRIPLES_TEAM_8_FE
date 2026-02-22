@@ -6,15 +6,15 @@ import Button from "@/components/common/Button";
 import ResultDescription from "@/components/onboarding/ResultDescription";
 import { useOnboardingStore } from "@/store/onboarding.store";
 
-const CATEGORY_MAP: Record<number, string> = {
-  1: "창작",
-  2: "창작",
-  5: "창작",
-  3: "에세이",
-  7: "에세이",
-  4: "유머",
-  6: "저널리즘",
-  8: "저널리즘",
+const CATEGORY_MAP: Record<string, string> = {
+  "811": "창작",
+  "812": "창작",
+  "813": "창작",
+  "814": "에세이",
+  "816": "에세이",
+  "815": "저널리즘",
+  "818": "저널리즘",
+  "817": "유머",
 };
 
 export default function OnboardingResultPage() {
@@ -31,7 +31,7 @@ export default function OnboardingResultPage() {
   const categoryName = CATEGORY_MAP[recommendedCategoryCode] ?? "기타";
 
   return (
-    <div className="h-screen flex flex-col bg-white px-6 pt-20 pb-10 items-center">
+    <div className="flex flex-col bg-white px-6 pt-16 pb-20 items-center">
       {/* 유형 이미지 */}
       <Image
         src={`/onboarding/${imageFileName}.svg`}
@@ -74,7 +74,7 @@ export default function OnboardingResultPage() {
       </div>
 
       {/* 하단 버튼 */}
-      <div className="mt-auto w-full">
+      <div className="w-full mt-10 mb-6">
         <Button onClick={() => router.push("/home")} className="w-full">
           그리드 시작
         </Button>

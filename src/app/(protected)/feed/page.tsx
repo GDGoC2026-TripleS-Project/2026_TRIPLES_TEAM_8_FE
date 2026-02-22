@@ -13,14 +13,14 @@ import FeedPagination from "@/components/feed/FeedPagination";
 const PAGE_SIZE = 5;
 
 const MAJOR_CODE_MAP: Record<number, CategoryType> = {
-  1: "창작",
-  2: "창작",
-  3: "에세이",
-  4: "유머",
-  5: "창작",
-  6: "저널리즘",
-  7: "에세이",
-  8: "저널리즘",
+  "811": "창작",
+  "812": "창작",
+  "813": "창작",
+  "814": "에세이",
+  "816": "에세이",
+  "815": "저널리즘",
+  "818": "저널리즘",
+  "817": "유머",
 };
 
 export default function FeedPage() {
@@ -98,7 +98,7 @@ export default function FeedPage() {
     <div>
       <TopNavBar />
 
-      <div className="px-6 pt-4 pb-10">
+      <div className="px-6 pt-4 pb-20 pt-[90px]">
         <FeedSearchBar
           value={search}
           onChange={(v) => {

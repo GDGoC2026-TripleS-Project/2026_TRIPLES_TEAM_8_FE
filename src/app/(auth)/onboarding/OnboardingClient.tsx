@@ -23,13 +23,14 @@ export default function OnboardingClient({ code }: Props) {
 
   const TOTAL = 3;
 
-  // 🔥 로그인 callback 처리
+  // 로그인 callback 처리 + 기존 유저 분기 처리
   useEffect(() => {
     if (!code) return;
 
-    const fetchToken = async () => {
+    const handleLogin = async () => {
       try {
-        const res = await apiFetch<{
+        // 로그인 콜백으로 토큰 발급
+        const loginRes = await apiFetch<{
           success: boolean;
           data: {
             accessToken: string;
@@ -41,20 +42,79 @@ export default function OnboardingClient({ code }: Props) {
           body: JSON.stringify({ code }),
         });
 
-        if (!res.success) return;
+        if (!loginRes.success) return;
 
-        const { accessToken, email } = res.data;
+        const { accessToken, email } = loginRes.data;
 
+        // 토큰 저장
         localStorage.setItem("accessToken", accessToken);
         setToken(accessToken);
         setEmail(email);
+
+        // 유저 정보 조회
+        const meRes = await apiFetch<{
+          success: boolean;
+          data: {
+            id: number;
+            email: string;
+            nickname?: string;
+            readerType?: string;
+            readerTitle?: string;
+            reviewCount?: number;
+          };
+        }>("/api/users/me", {
+          method: "GET",
+        });
+
+        if (!meRes.success) return;
+
+        const { readerType } = meRes.data;
+
+        // readerType 존재 여부로 분기
+        if (readerType) {
+          // 기존 유저 → 홈으로
+          router.replace("/home");
+        }
+        // readerType 없으면 온보딩 계속 진행
       } catch (error) {
-        console.error("로그인 콜백 실패", error);
+        console.error("로그인 처리 실패", error);
       }
     };
 
-    fetchToken();
-  }, [code, setToken, setEmail]);
+    handleLogin();
+  }, [code, setToken, setEmail, router]);
+
+  // useEffect(() => {
+  //   if (!code) return;
+
+  //   const fetchToken = async () => {
+  //     try {
+  //       const res = await apiFetch<{
+  //         success: boolean;
+  //         data: {
+  //           accessToken: string;
+  //           refreshToken: string;
+  //           email: string;
+  //         };
+  //       }>("/api/login/callback", {
+  //         method: "POST",
+  //         body: JSON.stringify({ code }),
+  //       });
+
+  //       if (!res.success) return;
+
+  //       const { accessToken, email } = res.data;
+
+  //       localStorage.setItem("accessToken", accessToken);
+  //       setToken(accessToken);
+  //       setEmail(email);
+  //     } catch (error) {
+  //       console.error("로그인 콜백 실패", error);
+  //     }
+  //   };
+
+  //   fetchToken();
+  // }, [code, setToken, setEmail]);
 
   // 슬라이드 로직
   useEffect(() => {

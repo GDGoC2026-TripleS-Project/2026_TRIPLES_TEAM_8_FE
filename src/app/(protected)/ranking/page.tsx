@@ -45,9 +45,9 @@ export default function RankingPage() {
   return (
     <div>
       <TopNavBar />
-      <div className="px-6 pt-10 pb-20">
+      <div className="px-6 pt-10 pb-24">
         {/* 타이틀 */}
-        <div className="mt-2">
+        <div className="mt-2 pt-[70px]">
           <p className="text-h2_m text-primary-dark">
             추천이 모여 취향이 된 순간들
           </p>
@@ -79,13 +79,11 @@ export default function RankingPage() {
         </div>
 
         {/* 내 랭킹 */}
-        <div className="mt-6 bg-gray-bg rounded-xl px-3 py-5 flex justify-between items-center">
+        <div className="mt-6 bg-gray-bg rounded-xl px-4 py-3 flex justify-between items-center">
           {isLoggedIn && myRank ? (
             <>
               <div className="flex gap-4 items-center">
-                <span className="text-h2_sb w-6 text-center">
-                  {myRank.rank}
-                </span>
+                <RankMedal rank={myRank.rank} />
                 <span className="text-h2_m text-primary-dark">
                   {myRank.nickname}
                 </span>
@@ -97,8 +95,8 @@ export default function RankingPage() {
           ) : (
             <>
               <span className="px-5 text-h2_m">-</span>
-              <span className="px-6 text-h2_m text-gray-text2">
-                로그인 후 자기 랭킹을 확인해보세요
+              <span className="px-10 text-h2_m text-gray-text2">
+                로그인 후 내 랭킹 확인하기
               </span>
             </>
           )}

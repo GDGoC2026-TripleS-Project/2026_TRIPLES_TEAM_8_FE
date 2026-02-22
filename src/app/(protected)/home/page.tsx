@@ -72,7 +72,7 @@ export default function HomePage() {
   return (
     <div>
       <TopNavBar />
-      <div className="pb-[30px]">
+      <div className="pb-[30px] pt-[70px]">
         {/* 독자 유형 영역 */}
         <div className="px-6 py-8 bg-gray-bg border-b border-stroke">
           <div className="flex justify-between items-center">
@@ -166,7 +166,7 @@ export default function HomePage() {
         </div>
 
         {/* 로그인 여부 상관 X 버튼 표시 */}
-        <div className="px-6">
+        <div className="px-6 mb-20">
           <Button
             onClick={handleRefresh}
             className={`w-full transition-colors duration-300 ${

@@ -99,7 +99,7 @@ export default function MyPage() {
   return (
     <div>
       <TopNavBar />
-      <div className="px-6 pb-20">
+      <div className="px-6 pb-20 pt-[80px]">
         <div className="flex flex-col items-center mt-10">
           <Image
             src={READER_PROFILE_MAP[user.readerType]}

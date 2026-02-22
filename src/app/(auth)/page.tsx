@@ -13,16 +13,16 @@ export default function AuthEntryPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-between h-screen px-6 py-16">
+    <div className="flex flex-col items-center justify-between px-6 py-16 pb-20">
       <div className="flex flex-col items-center gap-6 mt-24">
         <Image src="/common/logo.svg" alt="logo" width={160} height={80} />
 
-        <p className="text-primary-dark text-h3_m">
+        <p className="text-primary-dark text-h3_m mb-20">
           당신이 고른 색의 책, 지금의 취향
         </p>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 mt-80">
         <Button
           onClick={handleGoogleLogin}
           leftIcon={

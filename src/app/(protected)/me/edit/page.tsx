@@ -70,7 +70,7 @@ export default function EditMyPage() {
   return (
     <>
       <BackHeader title="내 정보 수정" />
-      <div className="min-h-screen bg-white pt-[40px]">
+      <div className="bg-white pt-[40px] pb-20">
         <div className="mt-10 px-6">
           {/* 프로필 영역 */}
           <div className="flex flex-col items-center py-8 border-b border-stroke">

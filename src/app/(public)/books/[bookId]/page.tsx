@@ -59,6 +59,7 @@ export default function BookDetailPage() {
         <BackHeader title={book.title} />
 
         <FeedCard
+          clickable={false}
           book={{
             bookId: book.id,
             title: book.title,

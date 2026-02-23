@@ -7,9 +7,10 @@ import { useRouter } from "next/navigation";
 
 interface Props {
   book: FeedBook;
+  clickable?: boolean;
 }
 
-export default function FeedCard({ book }: Props) {
+export default function FeedCard({ book, clickable = true }: Props) {
   const router = useRouter();
 
   const cleanKeyword1 = book.keyword1.replace("#", "");
@@ -18,10 +19,17 @@ export default function FeedCard({ book }: Props) {
   const color1 = KEYWORD_COLOR_MAP[cleanKeyword1] ?? "var(--kw-light)";
   const color2 = KEYWORD_COLOR_MAP[cleanKeyword2] ?? color1;
 
+  const handleClick = () => {
+    if (!clickable) return;
+    router.push(`/books/${book.bookId}`);
+  };
+
   return (
     <div
-      onClick={() => router.push(`/books/${book.bookId}`)}
-      className="flex gap-4 py-6 border-b border-stroke cursor-pointer"
+      onClick={handleClick}
+      className={`flex gap-4 py-6 border-b border-stroke ${
+        clickable ? "cursor-pointer" : "cursor-default"
+      }`}
     >
       {/* 썸네일 */}
       <div

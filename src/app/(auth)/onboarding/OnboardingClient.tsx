@@ -84,38 +84,6 @@ export default function OnboardingClient({ code }: Props) {
     handleLogin();
   }, [code, setToken, setEmail, router]);
 
-  // useEffect(() => {
-  //   if (!code) return;
-
-  //   const fetchToken = async () => {
-  //     try {
-  //       const res = await apiFetch<{
-  //         success: boolean;
-  //         data: {
-  //           accessToken: string;
-  //           refreshToken: string;
-  //           email: string;
-  //         };
-  //       }>("/api/login/callback", {
-  //         method: "POST",
-  //         body: JSON.stringify({ code }),
-  //       });
-
-  //       if (!res.success) return;
-
-  //       const { accessToken, email } = res.data;
-
-  //       localStorage.setItem("accessToken", accessToken);
-  //       setToken(accessToken);
-  //       setEmail(email);
-  //     } catch (error) {
-  //       console.error("로그인 콜백 실패", error);
-  //     }
-  //   };
-
-  //   fetchToken();
-  // }, [code, setToken, setEmail]);
-
   // 슬라이드 로직
   useEffect(() => {
     const container = containerRef.current;

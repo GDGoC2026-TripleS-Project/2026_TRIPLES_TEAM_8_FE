@@ -35,7 +35,7 @@ export async function logout() {
 }
 
 export async function deleteAccount() {
-  return apiFetch("/api/users/me", {
+  return apiFetch("/api/login/withdraw", {
     method: "DELETE",
   });
 }
